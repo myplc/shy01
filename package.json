@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "express": "^4.19.2",
+<<<<<<< HEAD
     "express-validator": "^7.1.0"
+=======
+    "mysql": "^2.18.1"
+>>>>>>> 453afa5b56cf20f93cb302673b902bd5a2be2d23
   }
 }
