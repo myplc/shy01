@@ -23,16 +23,27 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
   console.log("웹에 정상 접속 하였습니다.");
 });
+app.get("/list", (req, res) => {
+  db.query("SELECT * from web2", (err, results) => {
+    let list = `<html><head><style>table {border-collapse: collapse;}tr,td,th {border: 1px solid black;}</style></head><body><table><tr><th>No.</th><th>ID</th><th>PW</th><th>Name</th><th>Email</th></tr>`;
+    const data = results;
+    data.forEach((v) => {
+      list += `<tr><td>${v.num}</td><td>${v.id}</td><td>${v.pw}</td><td>${v.name}</td><td>${v.email}</td></tr>`;
+    });
+    list += `</table><strong><a href="/">돌아가기</a></strong></body></html>`;
+    console.log(data);
+    res.send(list);
+  });
+});
 
 app.get("/data", (req, res) => {
-  const { name, dob } = req.query;
-  db.query("INSERT INTO web (name, dob) VALUES (?,?)", [name, dob], (err, result) => {
+  const { num, id, pw, name, email } = req.query;
+  db.query("INSERT INTO web2 (num,id,pw,name,email) VALUES (?,?,?,?,?)", [num, id, pw, name, email], (err, result) => {
     if (err) {
       console.log(err);
       return;
     }
-    res.redirect("/");
-    console.log(`name: ${name}, dob: ${dob}`);
+    res.redirect("/list");
     console.log("Data inserted successfully");
   }); // MySQL query here
 });
