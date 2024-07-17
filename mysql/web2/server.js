@@ -103,22 +103,13 @@ app.get("/list", (req, res) => {
 });
 
 app.get("/data", (req, res) => {
-<<<<<<< HEAD
-  const { num, id, pw, name, email } = req.query;
-  db.query("INSERT INTO web2 (num,id,pw,name,email) VALUES (?,?,?,?,?)", [num, id, pw, name, email], (err, result) => {
-=======
   const { id, name, age, email } = req.query;
   db.query("INSERT INTO web2 ( id, name, age, email) VALUES (?,?,?,?)", [id, name, age * 1, email], (err, result) => {
->>>>>>> 9bdf59c90eba1256b2fb13c7ebc62b8f368f53b4
     if (err) {
       console.log(err);
       return;
     }
-<<<<<<< HEAD
-    res.redirect("/list");
-=======
     res.redirect("/");
->>>>>>> 9bdf59c90eba1256b2fb13c7ebc62b8f368f53b4
     console.log("Data inserted successfully");
   }); // MySQL query here
 });
