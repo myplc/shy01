@@ -13,22 +13,22 @@ app.get("/", (req, res) => {
   list += `</head>`;
   list += `<style>`;
   list += `    table {`;
-  list += `        width: 100%;`;
+  list += `        width: 80%;height: 400px;`;
   list += `        border-collapse: collapse;`;
-  list += `    }`;
+  list += `    text-align: center;}`;
   list += `    th,`;
-  list += `    tr,`;
+  list += `    `;
   list += `    td {`;
-  list += `        border: 1px solid #000;`;
+  list += `        border: 1px solid #000;width:10%;`;
   list += `        }`;
   list += `</style>`;
   list += `<body><h1>구구단</h1>
             <form action="/">
                 <select name="gugu">
                     <option value="0">전체</option>`;
-  for (let i = 2; i <= 9; i++) {
-    list += `         <option value="${i}">${i}단</option>`;
-  }
+
+  for (let i = 2; i <= 9; i++) list += `<option value="${i}">${i}단</option>`;
+
   list += ` </select><input type="submit" value="확인"></form>`;
   list += `<table><tr>`;
 
@@ -60,4 +60,4 @@ app.get("/", (req, res) => {
   res.send(list);
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => console.log(`Server running on port http://localhost:${port}`));
