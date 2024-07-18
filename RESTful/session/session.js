@@ -49,9 +49,7 @@ app.post("/login", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy((e) => {
     if (e) console.error(e);
-    res.send(
-      `<script>alert('로그아웃이 되었습니다!!');window.location.href='/'</script>`
-    );
+    res.send(`<script>alert('로그아웃이 되었습니다!!');window.location.href='/'</script>`);
   });
 });
 
