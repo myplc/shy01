@@ -66,12 +66,15 @@
 <body>
     <div class="login-container">
         <h2>로그인</h2>
-        <form>
-            <input type="text" id="username" placeholder="아이디" required>
-            <input type="password" id="password" placeholder="비밀번호" required>
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+            <label for="pw">Password:</label>
+            <input type="password" id="pw" name="password" placeholder="비밀번호" required />
             <button type="submit">로그인</button>
             <button type="reset" class="reset-btn">다시 입력</button>
         </form>
+    </div>
     </div>
 </body>
 
