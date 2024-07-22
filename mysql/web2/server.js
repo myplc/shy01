@@ -73,7 +73,7 @@ app.get("/list", (req, res) => {
     list += `<body>`;
     list += `    <!-- table>tr>th*5^tr>td*5 -->`;
     list += `    <h2>데이터베이스 내용</h2>`;
-    list += `<button type="button" onclick="location.href='/' ">뒤로가기</button>`;
+    list += `<button type="button" onclick="location.href='/'">뒤로가기</button>`;
 
     list += `    <table>`;
     list += `        <tr>`;
