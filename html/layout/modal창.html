@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const bt = document.getElementById('ok');
+            const modal = document.querySelector('.modal');
+            const modalBody = document.querySelector('.modal-body');
+            const indiv = document.getElementById('inDiv');
+            bt.addEventListener('click', () => modal.classList.add('show'))
+            modal.addEventListener('click', (e) => {
+                modal.classList.remove('show');
+                indiv.addEventListener('click', event => event.stopPropagation())
+            })
+        })
+    </script>
     <style>
         body {
             margin: 0;
@@ -17,7 +30,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* display: none; */
+            display: none;
             background-color: rgba(0, 0, 0, 0.5);
         }
 
@@ -26,10 +39,11 @@
         }
 
         .modal-body {
-            position: absolute;
-            top: 20%;
-            left: 35%;
-            min-width: 250px;
+            position: relative;
+            top: calc(50% - 200px);
+            /* left: 35%; */
+            margin: 0 auto;
+            width: 250px;
             height: 400px;
             padding: 20px;
             text-align: start;
@@ -51,19 +65,18 @@
             <div class="modal-title">
                 <span>작성자:</span>
             </div>
-            <span>제목:</span>
-            <input type="text"><br>
-            <span>내용:</span><br>
-            <textarea name="" id="" cols="30" row="10"></textarea>
+            <div id="inDiv">
+                <span>제목:</span>
+                <input type="text"><br>
+                <span>내용:</span><br>
+                <textarea name="" id="" cols="30" row="10"></textarea>
+            </div>
         </div>
     </div>
 
     <!-- 본문내용영역 -->
     <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel voluptates, rem esse assumenda doloremque nisi, non
         consequuntur molestiae rerum voluptatem fuga quae neque eaque quas iste possimus magni ducimus molestias. Nobis
-        eaque similique nesciunt illo quibusdam! Distinctio iure impedit dolorum consequatur at libero dolore officia ad
-        delectus, assumenda eveniet iste. Quidem odit ullam possimus. Quod sed maiores perspiciatis eligendi eveniet
-        soluta officia debitis, corrupti nihil delectus autem similique asperiores alias qui, quisquam atque, incidunt
         labore laudantium iusto officiis? Accusantium sint necessitatibus quasi quod, accusamus nihil iure nulla omnis
         tempora quo id cum natus placeat cumque! Adipisci aperiam eveniet soluta unde.</h2>
     <button id="ok">확인</button>
