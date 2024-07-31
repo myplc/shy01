@@ -41,14 +41,29 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
   if (username === "user" && password == "1234") {
     req.session.loggedIn = true;
+    if (!req.session.num1) {
+      req.session.num1 = 1;
+    } else {
+      req.session.num1 += 1;
+    }
     req.session.username = username;
-    // res.redirect("/mypage");
-    res.send(`<script>alert('로그인이 되었습니다');window.location.href='/mypage'</script>`);
+    res.send(`<script>alert('${req.session.num1}번째 로그인이 되었습니다');window.location.href='/mypage'</script>`);
   }
+  if (username === "admin" && password == "123456") {
+    req.session.adminOk = true;
+    res.send(`<script>alert('관리자로 로그인이 되었습니다');window.location.href='/mypage'</script>`);
+  }
+});
+app.get("/logout", (req, res) => {
+  req.session.loggedIn = false;
+  req.session.adminOk = false;
+  res.send(`<script>alert('로그아웃 되었습니다.');window.location.href='/'</script>`);
 });
 app.get("/mypage", (req, res) => {
   if (req.session.loggedIn) {
     res.sendFile(__dirname + "/mypage.html");
+  } else if (req.session.adminOk) {
+    res.send("<h1>관리자페이지</h1><script>window.location.href='/list'</script>");
   } else {
     res.sendFile(__dirname + "/login.html");
   }
@@ -60,7 +75,12 @@ app.get("/content", (req, res) => {
     res.sendFile(__dirname + "/login.html");
   }
 });
-
+app.get("/del", (req, res) => {
+  const del = req.query.delitem;
+  db.query(`DELETE FROM tb2 WHERE num=${del}`, (err, results) => {
+    res.send(`<script>alert('목록이 삭제 되었습니다.');window.location.href="/list"</script>`);
+  });
+});
 app.get("/list", (req, res) => {
   db.query("SELECT * from tb2", (err, results) => {
     const data = results;
@@ -97,7 +117,10 @@ app.get("/list", (req, res) => {
     list += ``;
     list += `<body>`;
     list += `    <!-- table>tr>th*5^tr>td*5 -->`;
-    list += `    <h2>데이터베이스 내용</h2>`;
+    list += `    <h2>게시판 입니다.</h2>`;
+    if (req.session.adminOk) {
+      list += `    <h2>[관리자 권한]</h2>`;
+    }
     list += `<button type="button" onclick="location.href='/'">뒤로가기</button>`;
 
     list += `    <table>`;
@@ -107,7 +130,7 @@ app.get("/list", (req, res) => {
     list += `            <th>작성자</th>`;
     list += `            <th>작성일자</th>`;
     list += `            <th>조회수</th>`;
-    if (req.session.loggedIn) {
+    if (req.session.adminOk) {
       list += `            <th>삭제</th>`;
     }
 
@@ -116,7 +139,7 @@ app.get("/list", (req, res) => {
     data.forEach((v, i) => {
       list += `        <tr>`;
       list += `            <td>${v.num}</td>`;
-      list += `            <td>${v.title}</td>`;
+      list += `            <td><a href="/detail?search=${v.num}">${v.title}</a></td>`;
       list += `            <td>${v.name}</td>`;
       list += `            <td>${v.date}</td>`;
       list += `            <td>${v.count}</td>`;
@@ -124,7 +147,7 @@ app.get("/list", (req, res) => {
       // list += `            <td><button id="del${i}">삭제</button></td>`;
       /* 예2 */
 
-      if (req.session.loggedIn) {
+      if (req.session.adminOk) {
         list += `            <td><a href="/del?delitem=${v.num}">삭제</a></td>`;
       }
       list += `        </tr>`;
@@ -141,17 +164,37 @@ app.get("/list", (req, res) => {
   });
 });
 
+let counter = 0;
+/* 클릭시 디테일창 */
+app.get("/detail", (req, res) => {
+  const search = req.query.search;
+  console.log(search);
+  db.query(`SELECT * FROM tb2 WHERE num=${search}`, (err, results) => {
+    res.send(`
+      <div>${results[0].num}</div>
+      <div>${results[0].title}</div>
+      <div>${results[0].name}</div>
+      <div>${results[0].content}</div>
+      <div>${results[0].count}</div>
+      `);
+    counter = results[0].count + 1;
+  });
+  /* 카운트 부분*/
+  db.query(`UPDATE tb2 SET count = ${counter} WHERE num=${search}`, (err, results) => {
+    console.log("조회수증가:", counter);
+  });
+});
+/* 게시판 입력부분 */
 app.post("/data", (req, res) => {
   const { title, name, date, content } = req.body;
-  // db.query("INSERT INTO tb2 ( title, name, date, content,count) VALUES (?,?,?,?,?)", [title, name, date, content, 0], (err, result) => {
-  db.query(`INSERT INTO tb2 ( title, name, date, content,count) VALUES ("${title}", "${name}", "${date}", "${content}",0)`, (err, result) => {
+  db.query(`INSERT INTO tb2 ( title, name, date, content, count) VALUES ("${title}", "${name}", "${date}", "${content}",0)`, (err, result) => {
     if (err) {
       console.log(err);
       return;
     }
     res.send(`<script>alert('내용이 저장 되었습니다');window.location.href='/list'</script>`);
     console.log("Data inserted successfully");
-  }); // MySQL query here
+  });
 });
 
 app.listen(port, () => {
