@@ -178,7 +178,11 @@
                             </td>
                         </tr>
                         <tr>
+<<<<<<< HEAD
                             <td colspan="2" style="text-align:center">
+=======
+                            <td colspan="2">
+>>>>>>> 2668553 ('init')
                                 <button class="btn" type="submit" onclick="fn_submit();return false;">투표하기</button>
                                 <button class="btn" type="button" onclick="fn_reset()">다시하기</button>
                             </td>
@@ -189,20 +193,31 @@
         </section>
         <%@ include file="footer.jsp" %>
     </body>
+<<<<<<< HEAD
     <script src="script.js"></script>
+=======
+    <!-- <script src="script.js"></script> -->
+>>>>>>> 2668553 ('init')
 
     </html>
 
 
     <script>
         function fn_submit() {
+<<<<<<< HEAD
             var f = document.frm;
 
             var v_jumin = f.v_jumin.value;
+=======
+            const f = document.frm;
+
+            const v_jumin = f.v_jumin.value;
+>>>>>>> 2668553 ('init')
             if (v_jumin == "") {
                 alert("주민번호가 입력되지 않았습니다!");
                 f.v_jumin.focus(); return false;
             }
+<<<<<<< HEAD
             var jumin = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/; // ^[0-9]{13}
             //주민번호 유효성 검사
             if (!jumin.test(v_jumin) || v_jumin.length < 13 || v_jumin.length > 13) {
@@ -215,6 +230,20 @@
                 f.v_name.focus(); return false;
             }
             var name = /^[가-힣]+$/; //한글이름 유효성 검사
+=======
+            const jumin = /^[0-9]{13}/; // ^[0-9]{13}
+            //주민번호 유효성 검사
+            if (!jumin.test(v_jumin)) {
+                alert("유효하지않은 주민번호 입니다.\n 숫자 13자리로 입력해주세요.");
+                f.v_jumin.focus(); return false;
+            }
+            const v_name = f.v_name.value;
+            if (v_name == "") { // v_name.length == 0
+                alert("성명이 입력되지 않았습니다!");
+                f.v_name.focus(); return false;
+            }
+            const name = /^[가-힣]+$/; //한글이름 유효성 검사
+>>>>>>> 2668553 ('init')
             if (!name.test(v_name)) {
                 alert("한글이름으로 입력해주세요.");
                 f.v_name.focus(); return false;
