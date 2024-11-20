@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const ori = `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?`;
+        const auth = `5NI1wgZX5OHJXox7MUewT3TwrjmvStFA`
+        const query = `authkey=${auth}&data=AP01`;
+        const url = ori + query;
+        fetch(url).then((response) => response.json()).then((data) => {
+            let list = ''
+            for (let i = 0; i < 5; i++) {
+                list += `<div>${i} 번째 ${data[i].title}</div>`
+            }
+            document.write(list)
+        }
+        )
+
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
